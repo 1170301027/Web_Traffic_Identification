@@ -20,6 +20,14 @@ public:
     explicit Tag(string name) : name(std::move(name)) {}
     string getName() { return this->name; }
 
+    bool operator==(const Tag &rhs) const {
+        return name == rhs.name;
+    }
+
+    bool operator!=(const Tag &rhs) const {
+        return !(rhs == *this);
+    }
+
 private:
     string name;
 };
@@ -121,6 +129,17 @@ public:
 
     int getChildrenSize() {
         return children.size();
+    }
+
+    bool operator==(const Element &rhs) const {
+        return static_cast<const Node &>(*this) == static_cast<const Node &>(rhs) &&
+               tag == rhs.tag &&
+               children == rhs.children &&
+               attrs == rhs.attrs;
+    }
+
+    bool operator!=(const Element &rhs) const {
+        return !(rhs == *this);
     }
 
 private:
