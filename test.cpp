@@ -18,15 +18,21 @@ void testWriteFile() {
 }
 
 void testDataStructure() {
-    Node n1(0, Node(), 0);
-    Node n2(0, Node(), 0);
-    TextNode t1(0,n1,0,"emm");
-    TextNode t2(0,n1,0,"emm");
-    cout<<(t1 == t2);
-    t2.
+    Element n;
+    shared_ptr<Element> n1(&n);
+    Node node;
+    shared_ptr<Node> n2(&node);
+    Node *e = dynamic_cast<Node * >(&n);
+//    Element *element = dynamic_cast<Element *>(&node);
+    TextNode t1(0,0,shared_ptr<Element>(&n),"emm");
+    TextNode t2(0,0,n1,"emm");
+//    cout<<(t1 == t2);
+    MD5 md5;
+    md5.printK();
 }
 
 int main() {
-    testWebCrawl();
-    testWriteFile();
+//    testWebCrawl();
+//    testWriteFile();
+    testDataStructure();
 }
