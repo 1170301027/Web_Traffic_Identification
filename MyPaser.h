@@ -142,7 +142,7 @@ public:
         if(pTag->isNoSubTag() || pTag->getName() == "script"){ // 标签不允许有子标签或者是文本节点
             return parseTextTag(parent);
         }
-        boolean parseAll = parent->getDepth() < maxParsingDepth; // 判断是否解析到最大解析深度
+        bool parseAll = parent->getDepth() < maxParsingDepth; // 判断是否解析到最大解析深度
         while(true){
             if(!buffer.canGo()) // 判断是否有下一个标签或文本
                 break;
@@ -174,20 +174,21 @@ public:
             }
             // 未遇到结束标签，遇到新的开始标签，继续解析
             shared_ptr<Tag> tag = getTag(name), endTag = nullptr;
-            Element e(tag, parent, siblings);
+            Element element(tag, parent, siblings);
+            shared_ptr<Element> ePtr(&element);
             Consumer<Node> action = tag.getAction();
             if(parseAll || action != nullptr){ // 未到最大解析深度，或者tag绑定了事件，继续解析节点属性并添加子节点，否则跳过
-                e.setAttrs(getAttributesFromTag()); // 解析该元素的属性
+                ePtr->setAttrs(getAttributesFromTag()); // 解析该元素的属性
                 if(parseAll){
-                    parent.appendChild(e);
+                    parent->appendChild(ePtr);
                 }
             }else{
                 buffer.moveTo(TAG_END_FLAG);
             }
             if(action != nullptr)
-                action.accept(e);
-            if(!tag.isEmpty()) // 解析非自关闭标签
-                endTag = parse(e);
+                action.accept(ePtr);
+            if(!tag->isEmpty()) // 解析非自关闭标签
+                endTag = parse(ePtr);
             if(endTag != nullptr){ // 解决标签闭合错误的问题
                 if(endTag == parent->getTag())
                     break;
