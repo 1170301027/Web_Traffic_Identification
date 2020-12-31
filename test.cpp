@@ -8,7 +8,7 @@ void testWebCrawl() {
 //    std::string url = "https://google.com";
     std::string url = "http://news.hit.edu.cn/2020/1206/c1510a220456/page.htm";
     content = getResponseFromUrl(url);
-//    std::cout<<content<<endl;
+//    std::cout<<buffer<<endl;
     parseResponse(content);
 }
 
