@@ -176,7 +176,7 @@ public:
             shared_ptr<Tag> tag = getTag(name), endTag = nullptr;
             Element element(tag, parent, siblings);
             shared_ptr<Element> ePtr(&element);
-            Consumer<Node> action = tag.getAction();
+            Consumer<Element> action = tag.getAction();
             if(parseAll || action != nullptr){ // 未到最大解析深度，或者tag绑定了事件，继续解析节点属性并添加子节点，否则跳过
                 ePtr->setAttrs(getAttributesFromTag()); // 解析该元素的属性
                 if(parseAll){
